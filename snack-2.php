@@ -9,49 +9,54 @@
 //    “Accesso riuscito”, altrimenti “Accesso negato”
 
 
-$msg='Accesso Negato';
-$why='';
+
+$msg = 'Accesso Negato';
+$why = '';
 
 // CONTROLLO NAME 
-$name=$_GET['name'];
-$checkName=false;
-if(strlen($name)>3){
-    $checkName=true;
-}else{
-    $why='Il nome è troppo corto'; 
+$name = $_GET['name'];
+$checkName = false;
+if (strlen($name) > 3) {
+    $checkName = true;
+} else {
+    $why = 'Il nome è troppo corto';
 };
 
-$age=$_GET['age'];
-$checkAge=false;
-if(is_numeric($age)){
-    $checkAge=true;
-}else{
-    $why='Il valore inserito non è un numero'; 
+
+// CONTROLLO ETA'
+$age = $_GET['age'];
+$checkAge = false;
+if (is_numeric($age)) {
+    $checkAge = true;
+} else {
+    $why = 'Il valore inserito non è un numero';
 };;
 
 
 
 
 // CONTROLLO MAIL 
-$email= $_GET['email'];
+$email = $_GET['email'];
+
+$checkMail = false;
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $why = "Formato email non valido";
+} else {
+    $checkMail = true;
+}
 // var_dump($email);
 
 // trova la posizione di  una substringa in una stringa 
-$a=strpos($email, '@');
+// $a = strpos($email, '@');
 // echo $a;
 
-$b=strpos($email, '.');
+// $b = strpos($email, '.');
 // echo $b;
 
 
 // controllo email, presenza . e @ e anche la loro posizione  e i checkAge checkName
-if($a !=false &&$b !=false && $checkAge && $checkName){    
-
-if($a<$b){
-    $msg='Accesso riuscito';
-}else{
-  $why='ma hai messo @ dopo il . ';
-}
+if ($checkMail && $checkAge && $checkName) {
+    $msg = 'Accesso riuscito';
 }
 
 
@@ -66,9 +71,7 @@ if($a<$b){
     <p>Inserisci il tuo nome (name), la tua età(age) e la tua email(email) nella stringa</p>
     <p>Il nome deve essere più lungo di 3 caratteri, l'età un numero e l'email deve avere "@" seguita da "." </p>
     <p>esempio <i> ?name=Adamo&&age=23&&email=adamo@io.com</i></p>
-<h1><?=$msg?></h1>
-<h2><?=$why?></h2>
+    <h1><?= $msg ?></h1>
+    <h2><?= $why ?></h2>
 
 </div>
-
-
